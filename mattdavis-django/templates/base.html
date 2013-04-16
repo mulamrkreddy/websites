@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+	<head>
+		<title> 
+			{% block title %} 
+				Matt Davis Guitar
+			{% endblock %} 
+		</title>
+		
+
+		{% block maps %}
+
+		{% endblock %}
+
+		<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}bike_blog_style.css" />
+
+<!--GOOGLE FONTS  -->
+<link href='http://fonts.googleapis.com/css?family=Sintony' rel='stylesheet' type='text/css'>
+
+<link href='http://fonts.googleapis.com/css?family=Merriweather+Sans' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=Marmelad' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=Nunito' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=Ropa+Sans' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=Codystar' rel='stylesheet' type='text/css'>
+<!--GOOGLE ANALYTICS  -->
+		<script type="text/javascript">
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-34041638-1']);
+		  _gaq.push(['_trackPageview']);
+		  (function() {
+		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
+		</script>	
+	</head>
+{% block body %}
+	<body onload="initialize()">
+
+		<div id="fb-root"></div>
+		<script>(function(d, s, id) {
+		  var js, fjs = d.getElementsByTagName(s)[0];
+		  if (d.getElementById(id)) {return;}
+		  js = d.createElement(s); js.id = id;
+		  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+		  fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));</script>
+
+{% endblock %}
+		<div id="wrapper">
+			<div id="container">
+				<div id="content">
+
+					<div id="webTitle">
+						<div id="the-title">Matt Davis</div>
+						<div id="byline">guitar.     composition.      education.</div>
+					
+					<nav>
+						<ul>
+							<li><a href="#">About</a>
+								<ul>
+									<li><a href="/about">Bio</a></li>
+									<li><a href="#">Discography</a></li>
+									<li><a href="#">Links</a></li>
+									<li><a href="#">Contact</a></li>
+
+								</ul>
+							</li>
+							<li><a href="#">Music</a>
+								<ul>
+									<li><a href="/music">Listen</a></li>
+									<li><a href="/blog">Performances</a></li>
+									<li><a href="/blog">Aerial<br/>Photograph</a></li>
+									<li><a href="#">Store</a></li>
+								</ul>
+							</li>
+
+							<li><a href="#">Media</a>
+								<ul>
+									<li><a href="/video">Videos</a></li>
+									<li><a href="/photos">Photos</a></li>
+									<li><a href="#">Press</a></li>
+								</ul>
+							</li>
+
+							<li><a href="/blog">Blog</a></li>
+					</ul>
+					</nav>
+
+					</div>
+					
+					{% block content%}
+					{% endblock %}		
+				
+
+
+
+
+
+
+				<div id="filters">
+					{% block filters %}
+					{% endblock %}	
+				</div>
+			
+
+				<div id="webTitle">
+
+					<div id="facebook-thing">
+						<div  class="fb-like fb_edge_widget_with_comment fb_iframe_widget" data-href="https://www.facebook.com/pages/Matt-Davis-Aerial-Photograph/118369704903165" data-send="true" data-width="280" data-show-faces="false" fb-xfbml-state="rendered"><span style="height: 28px; width: 285px;"><iframe id="f48f7383" name="f2759aba1" scrolling="no" style="border: none; overflow: hidden; height: 28px; width: 285px;" title="Like this content on Facebook." class="fb_ltr" src="http://www.facebook.com/plugins/like.php?api_key=&amp;locale=en_US&amp;sdk=joey&amp;channel_url=http%3A%2F%2Fstatic.ak.facebook.com%2Fconnect%2Fxd_arbiter.php%3Fversion%3D21%23cb%3Df313b36ddc%26origin%3Dhttp%253A%252F%252Fmattdavisguitar.com%252Ff2b1687474%26domain%3Dmattdavisguitar.com%26relation%3Dparent.parent&amp;href=https%3A%2F%2Fwww.facebook.com%2Fpages%2FMatt-Davis-Aerial-Photograph%2F118369704903165&amp;node_type=link&amp;width=285&amp;layout=standard&amp;colorscheme=light&amp;show_faces=false&amp;send=true&amp;extended_social_context=false"></iframe></span></div>
+						</div>
+					</div>
+					</div>
+					</div>
+		</div>
+	</body>
+</html>

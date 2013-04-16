@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+
+
+{% block maps %}
+	<script language="JavaScript" type="text/javascript"> 
+	<!-- 
+	var lastMenuName;
+	function toggleMenu(menuName) {
+		var menu = document.getElementById(menuName);
+
+		if (menu == null) return;
+
+		if (menu.style.display == "none") {
+			// Hide previous item
+			if (lastMenuName != null) {
+				document.getElementById(lastMenuName).style.display = "none";
+			}
+			menu.style.display = "block";
+			lastMenuName = menuName;
+		}
+		else {
+			menu.style.display = "none";
+		}
+	}	//--> 
+	</script>
+      
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=drawing" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+  function do_not_initialize() {
+
+    var 
+    user  = "afraint",
+    table = "crashesfatal1995to2009";
+    lat   = 40.721411338949,
+    lng   = -73.938417439825,
+    zoom  = 12;
+
+    // Define the initial options
+    var cartodbMapOptions = {
+      zoom: zoom,
+      center: new google.maps.LatLng( lat, lng ),
+      disableDefaultUI: true,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    }
+
+    // Initialize the map
+    var map = new google.maps.Map(document.getElementById("map"),cartodbMapOptions);
+
+    // Define the map styles
+    var map_style = [{
+      stylers: [{ saturation: -65 }, { gamma: 1.52 }] }, {
+      featureType: "administrative", stylers: [{ saturation: -95 }, { gamma: 2.26 }] }, {
+      featureType: "water", elementType: "labels", stylers: [{ visibility: "off" }] }, {
+      featureType: "administrative.locality", stylers: [{ visibility: 'off' }] }, {
+      featureType: "road", stylers: [{ visibility: "simplified" }, { saturation: -99 }, { gamma: 2.22 }] }, {
+      featureType: "poi", elementType: "labels", stylers: [{ visibility: "off" }] }, {
+      featureType: "road.arterial", stylers: [{ visibility: 'off' }] }, {
+      featureType: "road.local", elementType: "labels", stylers: [{ visibility: 'off' }] }, {
+      featureType: "transit", stylers: [{ visibility: 'off' }] }, {
+      featureType: "road", elementType: "labels", stylers: [{ visibility: 'off' }] }, {
+      featureType: "poi", stylers: [{ saturation: -55 }]
+    }];
+
+    // Set the style
+    map.setOptions({ styles: map_style });
+
+		  // Define the layer
+    var cartoDBLayer = {
+      getTileUrl: function(coord, zoom) {
+        return "https://" + user + ".cartodb.com/tiles/" + table + "/" + zoom + "/" + coord.x + "/" + coord.y + ".png";
+      },
+      tileSize: new google.maps.Size(256, 256)
+    };
+
+    // Add the CartoDB tiles
+    map.overlayMapTypes.insertAt(0, new google.maps.ImageMapType(cartoDBLayer));
+
+  };
+
+</script>
+
+{% endblock %}
+
+{% block content %}
+<div id="webTitle">
+	<h1>maps</h1>
+</div>
+
+<div id="text_block">
+	<span style="text-align:center;" >
+		<h1 class="about_title">
+			<a href="http://newyork-crashstories.dotcloud.com">
+				CrashStories</a>
+			
+			<br/>
+			
+			<span style="font-size:20px;">
+				a Crowdsourced Crash map for Cyclists and Pedestrians
+			</span>
+		</h1>
+	<br/>
+		<h4>
+			in collaboration with <a href="http://www.transalt.org/" target="_blank">Transportation Alternatives</a> 
+			
+			<span style="font-size:12px;">
+				(and lots of help from <a href="http://openplans.org/" target="_blank">OpenPlans</a>)
+			</span>
+		</h4>
+
+	</span>
+<br/>
+	<div id="photo_area" >
+		<a href="javascript:toggleMenu('ABOUT')">
+			About CrashStories<br/>[+] 
+		</a>
+	</div>
+	<span id="ABOUT" style="display:none">
+		<p>I've been developing a map that will crowdsource crash information using <a href="http://www.shareabouts.org" target="_blank">Shareabouts</a>, an open source geographic crowdsourcing platform created by <a href="http://openplans.org/" target="_blank">OpenPlans</a>. (<span class="text_time">Check out <a href="https://github.com/openplans/shareabouts" target="_blank">the docs</a> and build your own!</span>) Whether it's a minor crash or a fatal accident, this platform will allow users to input data about their crash or "near-miss", and this community-generated data might be able to provide a new view into the safety of New York City's streets. Another use of this application could be to organize witnesses of an accident, allowing them to find each other and testify for any insurance or legal claims that the victim might have to deal with. </p><br/>
+
+		<p>This application was developed for use in my Fellowship Research at Hunter College, where I am investigating the ways that street design and other factors inform the interactions between travelers. There are channels in place that collect the "Official Crash Data", which is collected by the NYPD. Their Accident Investigation Squad will be dispatched only when the victim is <b>"KSI" - "Killed or Severely Injured"</b>. If the victim is not KSI at the scene of the crime, it is unlikely that the AIS will be dispactched, and there might not be a Police report filed at all. </p>
+	</span>
+	
+	<br/>
+	<br/>	
+	
+	<div id="photo_area" >
+		<a href="javascript:toggleMenu('THANKS')">
+			Acknowledgements<br/>[+]
+		</a>
+	</div>
+	<span id="THANKS" style="display:none">
+		<p>This map was developed both as a data collection tool for my Research Fellowship and for Dr. <a href="http://www.hunteruap.org/faculty/laxmi/" target="_blank">Laxmi Ramasubramanian</a>'s "Public Participation GIS" course at <a href="http://www.hunteruap.org/" target="_blank">Hunter College, CUNY</a>. Thanks to Laxmi for her guidance, and all those who have helped me out thus far: <a href="http://openplans.org/team_cpt/frank-hebbert/" target="_blank">Frank Hebbert</a> from <a href="http://openplans.org/" target="_blank">OpenPlans</a>, <a href="http://georgiabullen.com/" target="_blank">Georgia Bullen</a> from the <a href="http://oti.newamerica.net/" target="_blank">Open Techonology Institute</a>, and Jennifer Godzeno from <a href="http://www.transalt.org/" target="_blank">Transportation Alternatives</a>.</p>
+	</span>
+
+	<br/>
+	<br/>
+
+		<p>Note: This map is currently in its BETA release. It is functional, but is hosted in "Sandbox" mode, meaning you can play around with it and add points to the map as you test out its functionality. Before this map goes live and gets a big media/PR push, the Beta data will be deleted and replaced with a fresh dataset. Have fun playing around with it, and be sure to send any bugs or desired map/survey design changes to me at afraint@hunter.cuny.edu. Thank you!</p>
+		
+	<br/>
+
+		<p>Map is <a href="http://newyork-crashstories.dotcloud.com">HERE!</a></p>
+
+		<div id="photo_area">
+			<img src="http://afraint.webfactional.com/static/logos/HunterUAP_logo_transp.png" class="logos"/><br/>
+			<img src="http://afraint.webfactional.com/static/logos/ta-logo.png" class="logos"/><br/>
+			<img src="http://afraint.webfactional.com/static/logos/OpenPlans-logo.png" class="logos"/>
+		</div>
+
+<!--
+<p>This is a map of fatal crashes in NYC from 1995 to 2009. Data was accessed at Transportation Alternative's <a href="http://crashstat.org">CrashStat</a> website, and I filtered out the fatal crashes in ArcGIS.</p>
+<p>Data is hosted in a PostGIS/PostgreSQL table/database at <a href="http://cartodb.com/">cartoDB</a> and rendered using the Google Maps API</p>
+<div id="map" style="width: 730px; height: 600px"></div>
+-->
+
+</div>
+{% endblock %}

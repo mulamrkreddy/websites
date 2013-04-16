@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id="webTitle">
+	<h1>	{{ post.title|upper }}</h1>
+</div>
+
+
+<div id="text_block">
+
+		<div class="text_time" style="text-align:center;">
+			{{ post.created }}
+		</div>
+			{% autoescape off %}
+			{{ post.formatted_body }}
+			{% endautoescape %}
+
+			<div id="photo_area">
+				{% if post.photos %}
+					{% for photo in post.photos %}
+					<br/>
+							<div class="text_time">
+								<span style="font-weight:bold;">
+									{{ photo.name|upper }} :::: {{ photo.date }} <br/>
+								</span>
+
+							</div>
+							
+							{% if photo.orientation == 0 %}
+							<span class="overrideIMG">
+									<a href="{{ STATIC_URL }}{{ photo.image }}" >
+											<img class="large" src="{{ STATIC_URL }}{{ photo.image }}"/>
+									</a>
+							</span>		
+							{% endif %}
+
+						{% endfor %}
+				{% endif %}
+			</div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id="webTitle">
+	<h1>blog</h1>
+</div>
+
+
+<div id="text_block">
+
+
+	{% for post in posts.object_list %}
+	
+		<h2><span class="override">
+			<a href="/post/{{ post.slug }}">
+			{{ post.title }}</a></span>
+		</h2>
+		<p><span class="text_time">
+			{{ post.created }}
+		</span></p>
+			{% autoescape off %}
+			{{ post.summary }}
+			{% endautoescape %}
+
+			<div id="photo_area">
+				{% if post.photos %}
+					{% for photo in post.photos %}
+						{% if photo.cover == 1 %}
+							{% if photo.orientation == 0 %}
+							<span class="overrideIMG">
+									<a href="{{ STATIC_URL }}{{ photo.image }}" >
+											<img class="large" src="{{ STATIC_URL }}{{ photo.image }}"/>
+									</a>
+							</span>
+														
+
+							{% endif %}
+						{% endif %}
+					{% endfor %}
+				{% endif %}
+			</div>
+
+		<div class="pagination">
+			{%  if post.long_or_short == 1 %}
+				<span class="post_link">
+					<a href="/post/{{ post.slug }}">continue reading</a>
+				</span>
+			{% endif %}
+		</div>
+
+		<br/>
+		{% endfor %}
+
+			<!-- Next/Prev page links -->
+			{% if posts.object_list and posts.paginator.num_pages > 1 %}
+			<div class="pagination">
+				<span class="step-links">
+					{% if posts.has_previous %}
+						<a href= "?page={{ posts.previous_page_number }}">{{ posts.previous_page_number }} &lt;&lt; </a>
+					{% endif %}
+					
+					<span class="current">
+						&nbsp;Page {{ posts.number }} of {{ posts.paginator.num_pages }}
+					</span>
+					
+					{% if posts.has_next %}
+							<a href="?page={{ posts.next_page_number }}"> &gt;&gt; {{ posts.next_page_number }} </a>
+					{% endif %}
+
+					
+				</span>		
+			</div>
+			{% endif %}			
+	</div>
+{% endblock %}
+
+{% block filters %}
+	filter:
+	{% for cat in cats %}
+		<br/><a href="{{ cat }}/">
+			{{ cat }}
+		</a>
+	{% endfor %}
+{% endblock %}
