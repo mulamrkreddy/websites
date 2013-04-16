@@ -9,6 +9,19 @@ from myproject.settings import MEDIA_ROOT
 from PIL.ExifTags import TAGS, GPSTAGS
 
 
+class Concert(models.Model):
+    venue = models.CharField(max_length=60)
+    url = models.CharField(max_length=60)
+    supported_by = models.CharField(max_length=60)
+    intersection = models.CharField(max_length=120)
+    description = models.TextField()
+    date = models.DateTimeField()
+    time = models.IntegerField()
+
+    def __unicode__(self):
+        return (self.venue + str(self.date))
+
+
 ###################################
 # category model
 ###################################
@@ -179,8 +192,14 @@ class PhotoAdmin(admin.ModelAdmin):
 
 class MusicAdmin(admin.ModelAdmin):
     fields = ["band", "description", "iframe", "website", "category"]
+	
+class ConcertAdmin(admin.ModelAdmin):
+    fields = ["date", "url", "time", "venue", "intersection", "description", "supported_by"]
 
+	
+	
 admin.site.register(Category)
 admin.site.register(Post, PostAdmin)
 admin.site.register(Photo, PhotoAdmin)
 admin.site.register(Music, MusicAdmin)
+admin.site.register(Concert, ConcertAdmin)

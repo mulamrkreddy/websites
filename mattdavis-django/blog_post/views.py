@@ -5,16 +5,29 @@ from django.template import RequestContext
 
 # imports for gmapi functions
 from django import forms
-from gmapi import maps
-from gmapi.forms.widgets import GoogleMap
+
 #
 
-from blog_post.models import Post, Photo, Category, Music
+from blog_post.models import Post, Photo, Category, Music, Concert
 from blog_post.models import get_categories
 
 ###########################
 # blog pages
 ###########################
+def concert_page(request):
+    """main listing of all blog posts"""
+    posts = Concert.objects.all().order_by("-date")
+    filters = []
+    paginator = Paginator(posts, 4)
+    try: page = int(request.GET.get("page", '1'))
+    except ValueError: page = 1
+    try: posts = paginator.page(page)
+    except (InvalidPage, EmptyPage): posts = paginator.page(paginator.num_pages)
+
+    return render_to_response("concerts.html", dict(posts=posts, user=request.user), context_instance=RequestContext(request))
+
+
+
 def blog_page(request):
     """main listing of all blog posts"""
     cats = get_categories('post')
@@ -110,47 +123,3 @@ def music_page_cat(request, category_short):
     bands = Music.objects.filter(category__name__exact=category)
     ordered_bands = bands.order_by('band')
     return render_to_response("music_cat.html", dict(bands=ordered_bands, cat=category_short), context_instance=RequestContext(request))
-###########################
-# gmapi functions, not in use currently
-###########################
-class MapForm(forms.Form):
-    map = forms.Field(widget=GoogleMap(attrs={'width':510, 'height':510}))
-
-def map_page(request):
-    gmap = maps.Map(opts = {
-        'center': maps.LatLng(38,-97),
-        'mapTypeId': maps.MapTypeId.ROADMAP,
-        'zoom': 3,
-        'mapTypeControlOptions': {
-            'style': maps.MapTypeControlStyle.DROPDOWN_MENU
-        },
-    })
-    context = {'form': MapForm(initial={'map': gmap})}
-    return render_to_response('map.html', context)
-
-class MapForm(forms.Form):
-    map = forms.Field(widget=GoogleMap(attrs={'width':510, 'height':510}))
-
-
-def index(request):
-    gmap = maps.Map(opts = {
-        'center': maps.LatLng(38, -97),
-        'mapTypeId': maps.MapTypeId.ROADMAP,
-        'zoom': 3,
-        'mapTypeControlOptions': {
-             'style': maps.MapTypeControlStyle.DROPDOWN_MENU
-        },
-    })
-    marker = maps.Marker(opts = {
-        'map': gmap,
-        'position': maps.LatLng(38, -97),
-    })
-    maps.event.addListener(marker, 'mouseover', 'myobj.markerOver')
-    maps.event.addListener(marker, 'mouseout', 'myobj.markerOut')
-    info = maps.InfoWindow({
-        'content': 'Hello!',
-        'disableAutoPan': True
-    })
-    info.open(gmap, marker)
-    context = {'form': MapForm(initial={'map': gmap})}
-    return render_to_response('index.html', context)
