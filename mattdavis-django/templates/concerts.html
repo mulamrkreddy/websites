@@ -11,13 +11,12 @@
 
 	{% for post in posts.object_list %}
 	
-		<h2><span class="override">
-			<a href="{{ post.url }}">
-			{{ post.venue }}</a></span>
+		<h2>{{ post.date }}
 		</h2>
-		<p><span class="text_time">
-			{{ post.date }}
-		</span></p>
+		<p>
+		<span class="override">
+			<a href="{{ post.url }}">
+			{{ post.venue }}</a></span></p>
 			{% autoescape off %}
 			{{ post.description }}
 			{% endautoescape %}
