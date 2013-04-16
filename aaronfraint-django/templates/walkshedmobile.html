@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html >
+<head>
+	
+	<meta name="viewport" content="width=device-width">
+	
+<script src="https://maps.gstatic.com/intl/en_us/mapfiles/api-3/11/3/main.js" type="text/javascript"></script>
+<title>Subways in your walkshed</title>
+<link rel="image_src" href="http://afraint.webfactional.com/static/maps/FB_IMAGE.png" />
+<link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.2/js/dojo/dijit/themes/claro/claro.css">
+<link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.2/js/esri/css/esri.css" />
+<!--GOOGLE ANALYTICS  -->
+		<script type="text/javascript">
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-34041638-1']);
+		  _gaq.push(['_trackPageview']);
+		  (function() {
+		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
+		</script>
+		
+	<script type="text/javascript"> 
+
+
+	function toggleMenu(menuName) {
+		var menu = document.getElementById(menuName);
+
+			menu.style.display = "none";
+
+	}
+	</script>
+	<script type="text/javascript"> 
+
+	function turn_on_messages() {
+		var menu = document.getElementById("messages");
+
+			menu.style.display = "block";
+
+	}
+	</script>	
+	
+<style type="text/css">
+		
+		html, body {
+		    width: 100%;
+		    height: 100%;
+		    margin: 0;
+		    overflow:hidden;
+		    font-family:"Helvetica", Arial;
+		    font-size:14px;
+		}
+		
+		#borderContainer {
+		    width: 100%;
+		    height: 100%;
+		}
+		#messages{
+			background:black;
+			color:white;
+		}
+		a:link,
+		a:visited,
+		a:hover,
+		a:active{
+			color:red;
+			text-decoration:none;
+		}
+		ul{
+			padding-left:-10px;
+		}
+
+		.bttn{
+			background:#000000;
+			color:#FFFFFF;
+			border:0.2em solid gray;
+			-moz-border-radius: 0.5em 0.5em 0.5em 0.5em;
+			border-radius: 0.5em 0.5em 0.5em 0.5em;	
+			font-size:80%;
+			
+		}
+		
+		.the_content{
+			background:#000000;
+			color:#FFFFFF;
+			text-align:center;			
+		}
+		
+		.run_it{
+			background:#808080;
+			color:#FFFFFF;
+			font-weight:bold;
+			border:0.2em solid gray;
+			-moz-border-radius: 0.5em 0.5em 0.5em 0.5em;
+			border-radius: 0.5em 0.5em 0.5em 0.5em;		
+			
+		}
+		/*
+		input, select{
+			width:10em;
+			height:5em;
+		}*/
+</style>
+
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
+ <script type="text/javascript">var djConfig = {parseOnLoad: true};</script>
+ <script type="text/javascript" src="http://serverapi.arcgisonline.com/jsapi/arcgis/?v=3.2"></script>
+ <!-- Note inclusion of google maps api -->
+ <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+
+ <script type="text/javascript">
+require(["dojo/ready", "dijit/Dialog"], function(ready, Dialog){
+    ready(function(){
+        myDialog = new Dialog({
+            title: "Subways in your Walkshed",
+            content: ' <p>This is a tool for New Yorkers to explore the subway options within their <a href="http://streetswiki.wikispaces.com/Walkshed" target="_blank">walkshed</a>.</p><p>It will identify subway stations you can walk to, and show where you can reach within the system on a direct train. Zero transfers.</p><p>Using the controls at the bottom of the screen, select the <strong>distance you are willing to walk</strong>, and either <strong>search for an address</strong> or <strong>find your current location</strong> to begin exploring.</p>   <p style="text-align:center;"><button  data-dojo-type="dijit.form.Button" type="button" data-dojo-props="onClick:function(){myDialog.hide();}">I\'m ready to start!</button> </p>  ',
+            style: "width: 70%"
+        });
+        infoDialog = new Dialog({
+            title: "How do I use this?",
+            content: '<p>Discover which subway stations you can walk to, and explore where you can reach within the system on a direct train. <strong>Zero transfers</strong>.</p><p>Using the controls at the bottom of the screen, <ul><li>select the distance you are willing to walk</li><li style="list-style:none;font-weight:bold;">AND</li><li>use your current location </li>	<li>or search for an address</li>	</ul></p>    <p style="text-align:center;"><button data-dojo-type="dijit.form.Button" type="button" data-dojo-props="onClick:function(){infoDialog.hide();}">OK, I got it!</button> </p>  ',
+            style: "width: 90%"
+        });
+        aboutDialog = new Dialog({
+            title: "About",
+            content: '<p>This map was developed by <strong><a href="http://www.aaronfraint.com" target="_blank">Aaron Fraint</a></strong> for the <strong><a href="http://www.geo.hunter.cuny.edu/programs/ma_courses.html#gtech731" target="_blank">Programming for GIS</a></strong> course at <a href="http://www.hunteruap.org/" target="_blank">Hunter College</a>.</p> <ul><li>Subway data from <a  href="http://nycopendata.esri.com/ArcGIS/rest/services/DOITTServices" target="_blank">NYC DoITT</a></li><li>geocoding and geolocation from Google Maps API</li><li>basemap / Drive Time geoprocessing tool from ArcGIS Online API</li></ul><p>To continue exploring, visit <a href="http://www.walkshed.org/" target="_blank">Walkshed.org</a>, a project by <a href="http://www.azavea.com/" target="_blank">Azavea</a>.</p><p><strong>Note:</strong><br/>This site works best with Firefox and Chrome. If the map isn\'t working properly, try switching your browser and/or updating it to the latest version.</p> <br/>  <img src="/static/maps/hunter_logo.png" style="width:100%;"/>	   <p style="text-align:center;"><button data-dojo-type="dijit.form.Button" type="button" data-dojo-props="onClick:function(){aboutDialog.hide();}">close</button> </p>  ',
+            style: "width: 70%"
+        });
+    });
+});
+</script>
+ <script type="text/javascript">
+      dojo.require("dijit.layout.BorderContainer");
+      dojo.require("dijit.layout.ContentPane");
+      dojo.require("esri.map");
+      dojo.require("esri.tasks.query");
+      dojo.require("esri.tasks.gp");
+
+	var map;
+	var geocoder = new google.maps.Geocoder();
+	// --------------------------------------------
+	// helper functions
+	//
+	// trims whitespace
+	function trim11(str) {
+	    str = str.replace(/^\s+/, '');
+	    var i;
+	    for (i = str.length - 1; i >= 0; i--) {
+	        if (/\S/.test(str.charAt(i))) {
+	            str = str.substring(0, i + 1);
+	            break;
+	        }
+	    }
+	    return str;
+	}
+	// --------------------------------------------------- 
+	// Sample google geocoding
+	//
+	// Callback function that google will call when the geocoding task is complete.
+	function getGoogleResults(results, status){
+	    if (status == google.maps.GeocoderStatus.OK) {
+	 	  var symbol = new esri.symbol.SimpleMarkerSymbol(esri.symbol.SimpleMarkerSymbol.STYLE_CIRCLE, 20, new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([255, 0, 0]), 2.5), new dojo.Color([255, 127, 127, 1.0]));
+		  var x = results[0].geometry.location.lng();
+		  var y = results[0].geometry.location.lat();
+		  var position = new esri.geometry.Point({
+			"x" : x,
+			"y" : y,
+			"spatialReference" : {
+				" wkid" : 4326
+			}
+	 	  });
+		  // Convert to web mercator for map display.
+		  var convertedPoint = esri.geometry.geographicToWebMercator(position);
+		  map.setLevel(18);  // centerAndZoom is apparently broken in 3.2
+		  map.centerAt(convertedPoint);
+		  var graphic = new esri.Graphic(convertedPoint, symbol);
+		  map.graphics.add(graphic);
+		  
+          var features= [];
+          features.push(graphic);
+          
+          var featureSet = new esri.tasks.FeatureSet();
+          featureSet.features = features;
+          
+          var params = { "Input_Location":featureSet, "Drive_Times": dojo.byId('driveDistance').value}; //
+          gp.execute(params);
+          dojo.byId('messages').innerHTML = "<b>Executing Walk Time calculation...</b>";
+	    } 
+	    else {
+	      alert("Geocoding failed! Here's why " + status);
+	    }
+	  }
+
+	function geocode() {
+		turn_on_messages()
+  		map.graphics.clear();
+		var address = document.getElementById("address").value + " NY"; // Append NY so users don't have to.
+    	geocoder.geocode( {'address': address}, getGoogleResults); // Invoke geocoder with the callback function
+  	}
+  	
+  	
+  	function geolocate(){
+  		turn_on_messages()
+  		  map.graphics.clear();
+	  	  if(navigator.geolocation) {
+	 	    navigator.geolocation.getCurrentPosition(function(position) {
+		     	initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+		     
+		     var symbol = new esri.symbol.SimpleMarkerSymbol(esri.symbol.SimpleMarkerSymbol.STYLE_CIRCLE, 20, new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([255, 0, 0]), 2.5), new dojo.Color([255, 127, 127, 1.0]));
+
+		  var position = new esri.geometry.Point({
+			"x" : position.coords.longitude,
+			"y" : position.coords.latitude,
+			"spatialReference" : {
+				" wkid" : 4326
+			}
+	 	  });
+		  // Convert to web mercator for map display.
+		  var convertedPoint = esri.geometry.geographicToWebMercator(position);
+		  map.setLevel(18);  // centerAndZoom is apparently broken in 3.2
+		  map.centerAt(convertedPoint);
+		  var graphic = new esri.Graphic(convertedPoint, symbol);
+		  map.graphics.add(graphic);
+		  
+          var features= [];
+          features.push(graphic);
+          
+          var featureSet = new esri.tasks.FeatureSet();
+          featureSet.features = features;
+          
+          var params = { "Input_Location":featureSet, "Drive_Times": dojo.byId('driveDistance').value}; //
+          gp.execute(params);
+          dojo.byId('messages').innerHTML = "<b>Executing Walk Time calculation...</b>";
+		     
+		     
+		     
+		     });
+	     };
+	      
+      
+      
+  	}
+ 	// --------------------------------------------------- 
+  
+    function init() {
+	  	var initExtent = new esri.geometry.Extent({"xmin":-8259460.10,"ymin": 4947776.04,"xmax": -8190666.78, "ymax": 4993638.25,"spatialReference":{"wkid":102100}});
+	    map = new esri.Map("map",{extent:initExtent});
+	    
+	    var basemap = new esri.layers.ArcGISTiledMapServiceLayer("http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer");
+	    //var subways = new esri.layers.ArcGISDynamicMapServiceLayer("http://nycopendata.esri.com/ArcGIS/rest/services/DOITTServices/SubwayStationsWM/MapServer");
+	    var subway_lines = new esri.layers.ArcGISDynamicMapServiceLayer("http://nycopendata.esri.com/ArcGIS/rest/services/DOITTServices/SubwayLinesWM/MapServer");
+	    
+	    map.addLayer(basemap);
+	    map.addLayer(subway_lines);
+	    //map.addLayer(subways);
+		dojo.connect(map, "onLoad", initFunctionality);
+		
+		// Function to hook up enter key with geocode function.
+		dojo.connect(dijit.byId("address"), "onkeypress", function(e) {
+			if(e.keyCode == dojo.keys.ENTER) {
+				geocode();
+			}
+		});
+	
+		dojo.connect(map, 'onLoad', function(theMap) { 
+	      dojo.connect(dijit.byId('map'), 'resize', map,map.resize);
+	    });
+    }
+    
+	function initFunctionality(map) {
+		map.hideZoomSlider();
+        var queryTask = new esri.tasks.QueryTask("http://nycopendata.esri.com/ArcGIS/rest/services/DOITTServices/SubwayStationsWM/MapServer/0");
+
+		var queryTask2 = new esri.tasks.QueryTask("http://nycopendata.esri.com/ArcGIS/rest/services/DOITTServices/SubwayStationsWM/MapServer/0");
+		
+		var queryTask3 = new esri.tasks.QueryTask("http://nycopendata.esri.com/ArcGIS/rest/services/DOITTServices/SubwayStationsWM/MapServer/0");
+
+        //identify proxy page to use if the toJson payload to the geometry service is greater than 2000 characters.
+        //If this null or not available the buffer operation will not work.  Otherwise it will do a http post to the proxy.
+        //esri.config.defaults.io.proxyUrl = "/arcgisserver/apis/javascript/proxy/proxy.ashx";
+        esri.config.defaults.io.alwaysUseProxy = false;
+
+        // Query
+        var query = new esri.tasks.Query();
+        var query2 = new esri.tasks.Query();
+		var query3 = new esri.tasks.Query();
+
+        query.returnGeometry = true;
+        query.outFields = ["NAME", "LINE", "OBJECTID"];
+        query.outSpatialReference = {"wkid":102100};
+
+        query2.returnGeometry = true;
+        query2.outFields = ["NAME", "LINE"];
+        query2.outSpatialReference = {"wkid":102100};
+
+        query3.returnGeometry = true;
+        query3.outFields = ["NAME", "LINE", "OBJECTID"];
+        query3.outSpatialReference = {"wkid":102100};
+        
+        
+        
+
+        //GP Service Endpoint
+        gp = new esri.tasks.Geoprocessor("http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Network/ESRI_DriveTime_US/GPServer/CreateDriveTimePolygons");
+        gp.setOutputSpatialReference({"wkid":102100});
+        
+        // ------------------------------------------------
+        
+        var gp_1 = ['1', '1-2', '1-2-3'];
+		var gp_2 = ['1-2','1-2-3','2','2-3','2-3-4','2-3-4-5','2-5'];
+		var gp_3 = ['1-2-3','2-3','2-3-4','2-3-4-5','3','3-4'];
+		var gp_4 = ['2-3-4', '2-3-4-5', '3-4', '4', '4-5', '4-5-6-6 Express', '4-6-6 Express'];
+		var gp_5 = ['2-3-4-5','2-5', '4-5','4-5-6-6 Express','5'];
+		var gp_6 = ['4-5-6-6 Express','4-6-6 Express','6', '6-6 Express'];
+		var gp_7 = ['7', '7-7 Express', '7-7 Express-N-W'];
+
+		
+		var gp_a = ['A','A-B-C','A-B-C-D','A-C','A-C-E','A-C-F','A-C-G','A-C-S','A-S'];
+		var gp_b = ['A-B-C','A-B-C-D','B-D','B-D-E','B-D-F-M','B-D-N-Q-R','B-Q','B-Q-S'];
+		var gp_c = ['A-B-C','A-B-C-D','A-C','A-C-E','A-C-F','A-C-G','A-C-S'];
+		var gp_d = ['A-B-C-D','B-D','B-D-E','B-D-F-M','B-D-N-Q-R','D-F-N-Q','D-N-R'];
+		var gp_e = ['E','E-F','E-F-M-R','E-J-Z','E-M','E-M-R', 'A-C-E', 'B-D-E'];
+		var gp_f = ['A-C-F', 'B-D-F-M','D-F-N-Q', 'E-F','E-F-M-R','F','F-G','F-M','F-Q'];
+		var gp_g = ['A-C-G','F-G','G'];
+		var gp_j = ['J','J-M','J-M-Z','J-Z','E-J-Z'];
+		var gp_m = ['J-M','J-M-Z', 'B-D-F-M',  'E-F-M-R','E-M','E-M-R', 'M'];
+		var gp_n = ['N', 'N-Q', 'N-Q-R', 'N-R', 'B-D-N-Q-R', 'D-F-N-Q','D-N-R'];
+		var gp_q = ['Q','B-D-N-Q-R','B-Q','B-Q-S','D-F-N-Q', 'F-Q', 'N-Q','N-Q-R'];
+		var gp_r = ['R', 'B-D-N-Q-R',  'E-F-M-R', 'E-M-R', 'N-Q-R', 'N-R', 'D-N-R'];
+		var gp_l = ['L'];
+		var gp_s = ['S','A-S'];
+		var gp_z = ['J-M-Z','J-Z','E-J-Z', 'Z'];
+		
+		var gp_all = [gp_1, gp_2, gp_3, gp_4, gp_5, gp_6, gp_7, gp_a, gp_b, gp_c, gp_d, gp_e, gp_f, gp_g, gp_j, gp_m, gp_n, gp_q, gp_r, gp_s, gp_l, gp_z];
+		
+		function cycle_through(list_of_lists, value_string){
+			var i = 0;
+			var results = [];
+			for (i; i<list_of_lists.length; i++){
+				var this_list = list_of_lists[i];
+				var z = 0;
+				for (z; z<value_string.length; z++){
+					var value = value_string[z].toString();
+					if (value == '4'){
+						results.push(gp_4);
+					}
+					else if (value == '5'){
+						results.push(gp_5);
+					}
+					else if (value == '6'){
+						results.push(gp_6);
+					}
+					else if (value == '7'){
+						results.push(gp_7);
+					}
+					else if (value == '1'){
+						results.push(gp_1);
+					}
+					else if (value == '2'){
+						results.push(gp_2);
+					}
+					else if (value == '3'){
+						results.push(gp_3);
+					}
+					else if (value == 'A'){
+						results.push(gp_a);
+					}
+					else if (value == 'B'){
+						results.push(gp_b);
+					}
+					else if (value == 'C'){
+						results.push(gp_c);
+					}
+					else if (value == 'D'){
+						results.push(gp_d);
+					}
+					else if (value == 'E'){
+						results.push(gp_e);
+					}
+					else if (value == 'F'){
+						results.push(gp_f);
+					}
+					else if (value == 'G'){
+						results.push(gp_g);
+					}
+					else if (value == 'J'){
+						results.push(gp_j);
+					}
+					else if (value == 'M'){
+						results.push(gp_m);
+					}
+					else if (value == 'N'){
+						results.push(gp_n);
+					}
+					else if (value == 'Q'){
+						results.push(gp_q);
+					}
+					else if (value == 'R'){
+						results.push(gp_r);
+					}
+					else if (value == 'S'){
+						results.push(gp_s);
+					}
+					else if (value == 'L'){
+						results.push(gp_l);
+					}
+
+				}
+				
+			}
+			return results;
+		}
+		// takes a list of lists and outputs: ('a', 'b', 'c')
+		function format_list_for_SQL(input_list) {
+	         var lst = input_list;
+	         var i = 0;
+	         var spam = 0;
+	         var out_string = "("
+	         for (i; i < lst.length; i++) {
+	         		var z = 0;
+	         		for (z; z<lst[i].length; z++){
+	            	 	out_string += "'" + lst[i][z] + "', ";
+	            	}
+				};
+	         out_string += ")";
+	         var final_result = out_string.replace(', )', ')');
+	         return final_result;
+     	}
+     	function remove_extras(input_list){
+     		var output = [];
+     		var i = 0;
+     		for (i; i<input_list.length; i++){
+     			var this_value = input_list[i];
+     			if (output.indexOf(this_value) < 0){
+     				output.push(this_value);
+     			}
+     		}
+     		return output;
+     	}
+        // ----------------------------------------------
+        
+        // +++++Listen for map onClick event+++++
+//        dojo.connect(map, "onClick", function(evt) {
+//          map.graphics.clear();
+//          var symbol = new esri.symbol.SimpleMarkerSymbol();
+//         var graphic = new esri.Graphic(evt.mapPoint, symbol);//
+//
+//          var features= [];
+//          features.push(graphic);
+//          
+//          var featureSet = new esri.tasks.FeatureSet();
+//          featureSet.features = features;
+//          
+//          var params = { "Input_Location":featureSet, "Drive_Times": dojo.byId('driveDistance').value}; //
+//          gp.execute(params);
+//          dojo.byId('messages').innerHTML = "<b>Executing Walk Time calculation...</b>";
+//        });
+
+        // +++++Listen for GP onExecuteComplete event+++++
+        dojo.connect(gp, "onExecuteComplete", function(results,messages) {
+        	//map.graphics.clear();
+          var feature = results[0].value.features[0];
+          var symbol = new esri.symbol.SimpleFillSymbol("none", new esri.symbol.SimpleLineSymbol("dashdot", new dojo.Color([255,0,0]), 5), new dojo.Color([255,255,0,0.25]));
+          feature.setSymbol(symbol);
+          map.graphics.add(feature);
+    	  try{
+    	  	 var xtent = feature.geometry.getExtent();
+	    	  query.spatialRelationship = esri.tasks.Query.SPATIAL_REL_INTERSECTS;
+	          query.geometry = xtent;
+	          map.setExtent(xtent);
+	          queryTask.execute(query);
+          }
+          catch(e){alert(e);}
+          dojo.byId('messages').innerHTML = "<b>Executing Subway query...</b>";
+        });
+
+        // +++++Listen for QueryTask executecomplete event+++++
+        dojo.connect(queryTask, "onError", function(error) {
+			dojo.byId('messages').innerHTML = error;
+		});
+		
+        dojo.connect(queryTask, "onComplete", function(fset) {
+        	var all_objectids = [];
+          var resultFeatures = fset.features;
+          var all_stops = [];
+          var these_stops = [];
+          
+          for (var i=0, il=resultFeatures.length; i<il; i++) {
+	            var graphic = resultFeatures[i];
+			    
+			    var lineName = graphic.attributes.LINE;
+			    var lineName_2 = lineName.replace("@", "");
+			    var lineName_3 = lineName_2.replace("-7 Express", "");
+			    var lineName_4 = lineName_3.replace("-6 Express", "");
+			    
+			    
+			    
+			    
+			    var lineName_5 = lineName_4.replace(/-/g,"");
+			    
+			    
+			    var graphic_width = lineName_5.length * 20;
+			    
+			    var fileName = lineName_5 + ".png";//graphic.attributes.LINE[0].toLowerCase() + "_shad.jpg";
+				var url = "http://www.aaronfraint.com/static/MTA_logos/";
+
+				var imgPath = url + fileName;
+			    var imgTag = '<img style="padding-left:30%;" src="' + imgPath + '"/>';
+			    //var infoTemplate = new esri.InfoTemplate("${NAME}", imgTag);//("Subway Station: ${BLOCK}", "${*}");
+                //map.infoWindow.resize(200, 75);
+                //infoTemplate.setTitle("${NAME}");
+          
+				//infoTemplate.setContent("<strong>${LINE}</strong><br/><img src='"+imgPath+"'/>");
+				//var train_a = new esri.symbol.PictureMarkerSymbol(imgPath, graphic_width, 23)
+
+	            //graphic.setSymbol(train_a);
+	            //graphic.setInfoTemplate(infoTemplate);
+	            //map.graphics.add(graphic);
+	            var all_possibilities = cycle_through(gp_all, lineName_5);
+	            var cntr = 0;
+	            for (cntr; cntr<all_possibilities.length; cntr++){
+	            	all_stops.push(all_possibilities[cntr]);
+	            }
+	            var lineDesc = graphic.attributes.NAME;
+	            var line_string = '<br/><img src="' + imgPath + '"/>' + " at " + lineDesc;
+	            these_stops.push(line_string);
+	            
+	            all_objectids.push(graphic.attributes.OBJECTID);
+	            
+
+          }
+          
+          query2.where = "LINE IN " + format_list_for_SQL(remove_extras(all_stops));
+          query3.where = "OBJECTID IN (" + all_objectids + ")";
+          queryTask2.execute(query2);
+          display_string = "";
+          for (var i = 0; i<these_stops.length; i++){
+          	display_string += these_stops[i];
+          }
+		  if (display_string.length > 1){
+			dojo.byId('messages').innerHTML = '<span style="font-size:14px;">You\'re near:</span><span style="text-align:left;"> ' + display_string + '</span><br/><button class="bttn" onclick="toggleMenu(\'messages\')">Hide</button>';//query2.where;////
+		  }
+		  else {
+			dojo.byId('messages').innerHTML = 'You\'re not within walking distance of any Subway stations. Try expanding the distance you\'re willing to walk and search again!';
+		  }
+        });
+        dojo.connect(queryTask2, "onComplete", function (fset){
+          var resultFeatures = fset.features;
+          var symbol = new esri.symbol.SimpleMarkerSymbol();
+          //symbol.style = esri.symbol.SimpleMarkerSymbol.STYLE_SQUARE;
+          symbol.setSize(11);
+          symbol.setColor(new dojo.Color([255,255,0,0.8]));
+
+          for (var i=0, il=resultFeatures.length; i<il; i++) {
+	            var graphic = resultFeatures[i];
+			    
+			    var lineName = graphic.attributes.LINE;
+			    var lineName_2 = lineName.replace("-7 Express", "");
+			    var lineName_3 = lineName_2.replace("-6 Express", "");
+			    var lineName_4 = lineName_3.replace("@", "");
+			    var lineName_5 = lineName_4.replace(/-/g,"");
+			    
+			    
+			    var graphic_width = lineName_5.length * 20;
+			    
+			    var fileName = lineName_5 + ".png";//graphic.attributes.LINE[0].toLowerCase() + "_shad.jpg";
+				var url = "http://www.aaronfraint.com/static/MTA_logos/";
+
+				var imgPath = url + fileName;
+			    var imgTag = '<img style="padding-left:30%;" src="' + imgPath + '"/>';
+			    var infoTemplate = new esri.InfoTemplate("${NAME}", imgTag);//("Subway Station: ${BLOCK}", "${*}");
+                map.infoWindow.resize(75, 75);
+
+	            graphic.setSymbol(symbol);
+	            graphic.setInfoTemplate(infoTemplate);
+	            map.graphics.add(graphic);
+			}
+			
+			queryTask3.execute(query3);
+			//dojo.byId('messages').innerHTML = query3.where;
+        });
+        dojo.connect(queryTask3, "onComplete", function(fset) {
+        	
+	          var resultFeatures = fset.features;
+	          //var all_stops = [];
+	          //var these_stops = [];
+	          for (var i=0, il=resultFeatures.length; i<il; i++) {
+		            var graphic = resultFeatures[i];
+				    
+				    var lineName = graphic.attributes.LINE;
+				    var lineName_2 = lineName.replace("@", "");
+				    var lineName_3 = lineName_2.replace("-7 Express", "");
+				    var lineName_4 = lineName_3.replace("-6 Express", "");
+				    var lineName_5 = lineName_4.replace(/-/g,"");
+				    
+				    
+				    var graphic_width = lineName_5.length * 20;
+				    
+				    var fileName = lineName_5 + ".png";//graphic.attributes.LINE[0].toLowerCase() + "_shad.jpg";
+					var url = "http://www.aaronfraint.com/static/MTA_logos/";
+	
+					var imgPath = url + fileName;
+				    var imgTag = '<img style="padding-left:30%;" src="' + imgPath + '"/>';
+				    var infoTemplate = new esri.InfoTemplate("${NAME}", imgTag);//("Subway Station: ${BLOCK}", "${*}");
+	                map.infoWindow.resize(150, 75);
+	                //infoTemplate.setTitle("${NAME}");
+	          
+					//infoTemplate.setContent("<strong>${LINE}</strong><br/><img src='"+imgPath+"'/>");
+					var train_a = new esri.symbol.PictureMarkerSymbol(imgPath, graphic_width, 23)
+	
+		            graphic.setSymbol(train_a);
+		            graphic.setInfoTemplate(infoTemplate);
+		            map.graphics.add(graphic);
+	          }
+          });
+      }      
+    dojo.addOnLoad(init);
+</script>
+</head>
+<body class="claro" onload="myDialog.show();">
+    <div data-dojo-type="dijit.layout.BorderContainer" data-dojo-props="design:'sidebar', gutters:true, liveSplitters:true" id="borderContainer">
+
+    	<div class="the_content" data-dojo-type="dijit.layout.ContentPane" data-dojo-props=" region:'top'" style="height: 6%;background:black;"> 
+    		<span style="font-weight:bolder">SUBWAYS in your WALKSHED</span>
+		</div>
+
+
+    	<div class="the_content" data-dojo-type="dijit.layout.ContentPane" data-dojo-props="splitter:true, region:'bottom'" style="height: 30%;background:black;"> 
+	       <div id="messages"></div>
+	<table width="100%">
+		<col width="50%">
+		<col width="50%">
+	
+
+		  
+		  
+		  
+		<tr>		  
+			<td>How far do you want to walk?</td>
+			<td> <select id="driveDistance">
+				  		  	<option value="1">&lt; 0.5 mile</option>
+						  	<option value="2">0.5 to 1 mile</option>
+				  			<option value="3">1 to 2(+) miles</option>
+				  		</select>	
+		 	</td>
+		</tr>
+
+		<tr>
+    		<td colspan="2"><button class="run_it" onclick="geolocate()">Find my location!</button></td>
+    		
+    	</tr>
+
+
+		<tr>
+    		<td >or search for an address:</td>
+    		<td></td>
+    	</tr>
+		
+		
+		<tr> 		
+			<td> <input type="text" id="address" value="68th & Lex, Manhattan"/> </td>
+			<td> <button class="run_it" onclick="geocode()">Search</button>
+    	</tr>
+
+    		<tr><td><br/></td><td><br/></td></tr>
+    		
+    		<tr>
+				<td><button class="bttn" onclick="infoDialog.show();">How do I use this map?</button></td>
+				<td><button class="bttn" onclick="aboutDialog.show();">About</button></td>
+			</tr>		
+       
+       </table>
+
+		  </div>
+
+    	<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props="splitter:true, region:'center'" id="map"> </div>
+	</div>
+</body>
+
+</html>
+
+
+
+
+
+

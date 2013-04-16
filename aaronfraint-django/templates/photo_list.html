@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id="webTitle">
+	<h1>photos</h1>
+</div>
+<div id="photo_area">
+	<h3>click photo for full size image</h3>
+	
+	
+	{% for photo in photos.object_list %}
+			<span class="overrideIMG">
+			<a href="{{ STATIC_URL }}{{ photo.image }}" >
+					<img class="small" src="{{ STATIC_URL }}{{ photo.image }}" />
+			</a> </span>
+	{% endfor %}
+	
+
+	<br/>
+	
+			<!-- Next/Prev page links -->
+			{% if photos.object_list and photos.paginator.num_pages > 1 %}
+			<div class="pagination">
+				<span class="step-links">
+					{% if photos.has_previous %}
+						<a href= "?page={{ photos.previous_page_number }}">{{ photos.previous_page_number }} &lt;&lt; </a>
+					{% endif %}
+					
+					<span class="current">
+						&nbsp;Page {{ photos.number }} of {{ photos.paginator.num_pages }}
+					</span>
+					
+					{% if photos.has_next %}
+							<a href="?page={{ photos.next_page_number }}"> &gt;&gt; {{ photos.next_page_number }} </a>
+					{% endif %}
+
+					
+				</span>		
+			</div>
+			{% endif %}		
+</div>
+{% endblock %}
+
+{% block filters %}
+	filter:<br/>
+	{% for cat in cats %}
+		<a href="{{ cat }}/">
+			{{ cat }}
+		</a>
+	{% endfor %}
+{% endblock %}

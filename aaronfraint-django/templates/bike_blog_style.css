@@ -1,0 +1,243 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+body{
+	text-align: center; /*for IE6 */
+	background-image:url('brooklynUSGS.png');
+	background-attachment:fixed;
+	background-repeat:repeat;
+	color:black;
+	font-size: 14px;
+	line-height: 20px;
+}
+#wrapper{ /* centers the page */
+	top: 100px;
+	display: block;
+	width: 960px;
+	margin: 0 auto;
+	text-align: left;
+}
+div#container{
+	position:static;
+	background-color:rgba(69,69,69,0.6);
+	margin-top: 50px;
+	margin-right: auto;
+	margin-left: auto;
+	width: 100%;
+	min-height: 700px;
+}
+div#content{ /*  meat of the page */
+	margin-left: auto;
+	margin-right: auto;
+	width: 750px;
+	position: inherit;
+	text-align: left;
+	/*border:solid;*/
+	padding:3px;
+}
+div#webTitle{ /* styling for name of the site */
+	vertical-align: middle;
+	height: auto;
+	text-align: center;
+	font-size: 28px;
+	line-height: 70px;
+	background-image:url('header_75_opacity.png');
+	color: #F2EB85;
+	/*font-variant: small-caps;*/
+	font-family: 'Codystar', cursive;
+}
+div#nav{ /* left hand side navigation*/
+	font-family: 'Nunito', sans-serif;/*"Lucida Console", Monaco, monospace;'Ropa Sans', sans-serif;*/
+	background-image:url('header_75_opacity.png');
+	color:#F2EB85;
+	/*font-weight: bold;*/
+	text-align: center;
+	font-size: 18px;
+	line-height: 25px;
+	padding-left: 2px;
+	position: fixed;
+	margin-left: 0px;
+	top: 300px;
+	width:85px;
+}
+div#filters{ /* right hand side filtering */
+	font-family: 'Nunito', sans-serif;
+	background-image:url('header_75_opacity.png');
+	color:#F2EB85;
+	text-align: center;
+	font-size: 14px;
+	position: fixed;
+	margin-left: 860px;
+	top: 300px;
+	width:100px;
+}
+div#map{
+	height:100%;
+}
+/* 
+PHOTO FORMATTING 
+*/
+div#photo_area{
+	font-family: 'Nunito', sans-serif;
+	text-align: center;
+	font-size: 14px;
+}
+img.large{
+	text-align: center;
+	float:center;
+	width: 700px;
+	height: auto;
+	border: 2px solid black;
+}
+img.small{
+	text-align: center;
+	float:center;
+	width: 230px;
+	height: auto;
+	border: 2px solid black;
+	padding: 0px;
+}
+#photo_container{
+	vertical-align: middle;
+	float:center;
+	width: 240px;
+	height: 240px;
+	padding:5px;
+}
+.logos{
+	width:250px;
+	height:auto;
+	vertical-align:center;
+	padding:4px;
+}
+/* 
+LINK FORMATTING 
+*/
+a{text-shadow: 0 0 10px white;}
+a:link {
+	  color: #F2EB85;
+	  text-decoration : none;
+}
+a:visited{
+	color:#F2EB85;
+	text-decoration:none;
+}
+a:hover{
+	color:#F2EB85;
+	text-decoration:none;
+	background:#5EA65B;
+}
+a:active{
+	font-weight: bold;
+	color:#F2EB85;
+	text-decoration:none;
+	background-color:#5EA65B;
+}
+.override a:link{
+	text-shadow: none;
+	text-decoration: none;
+	border: none;
+	color: black;
+}
+.override a:visited{
+	text-shadow: none;
+	text-decoration: none;
+	border: none;
+	color: black;
+}
+.override a:active{
+	text-shadow: none;
+	text-decoration: none;
+	border: none;
+	color: black;
+}
+.override_2 a:link{
+	text-shadow: 0 2 5px white;
+	text-decoration: none;
+	border: none;
+	color: black;
+}
+.override_2 a:visited{
+	text-shadow: 0 2 5px white;
+	text-decoration: none;
+	border: none;
+	color: black;
+}
+.override_2 a:active{
+	text-shadow: 0 2 5px white;
+	text-decoration: none;
+	border: none;
+	color: black;
+}
+.overrideIMG a{
+	text-shadow: none;
+	text-decoration: none;
+	border: none;
+	color: black;
+	background:none;
+}
+/*
+TEXT FORMATTING
+*/
+ul{
+	list-style-position: inside;
+	margin-left: 3px;
+}
+div#text_block{
+	font-family: 'Nunito', sans-serif;
+	background-color:rgba(47,79,47,0.7);
+	padding:10px;
+}
+div#code_block{
+	font-size: 12px;
+	line-height: 18px;
+}
+div#text_block_bare{
+	font-family: 'Nunito', sans-serif;
+	padding:10px;
+}
+.cmd_text{
+	font-family: Courier New;
+		background:grey;
+		font-size:12px;
+		padding:5px;
+}
+.post_title{
+	color: black;
+}
+.about_title{
+	font-variant:small-caps;
+	font-size:26px;
+	font-weight:bold;
+}
+.text_time{
+	font-size: 13px;
+	letter-spacing:3px;
+	font-variant:small-caps;
+	text-align:center;
+}
+div#centered_text{
+	text-align: center;
+}
+.text_time{
+	font-size: 13px;
+	letter-spacing:3px;
+	font-variant:small-caps;
+	text-align:center;
+}
+.pagination{
+	text-align: center;
+	font-size: 24px;
+	padding-bottom: 15px;
+	padding-top: 15px;
+	font-variant: small-caps;
+}
+.current{
+	font-weight: bold;
+}
+.iframe{
+	width: 500px;
+	margin-right: auto;
+	margin-left: auto;
+}

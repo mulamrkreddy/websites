@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+	<head>
+		<title> 
+			{% block title %} 
+				aaron fraint
+			{% endblock %} 
+		</title>
+		
+		<!--GOOGLE MAPS  -->
+		<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCEhj63mtATyU7Z8v7kzIN5QpGHTCXjnsg&sensor=false"></script>
+
+		{% block maps %}
+
+		{% endblock %}
+
+		<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}bike_blog_style.css" />
+<!--GOOGLE FONTS  -->
+
+		<link href='http://fonts.googleapis.com/css?family=Nunito' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=Ropa+Sans' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=Codystar' rel='stylesheet' type='text/css'>
+<!--GOOGLE ANALYTICS  -->
+		<script type="text/javascript">
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-34041638-1']);
+		  _gaq.push(['_trackPageview']);
+		  (function() {
+		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
+		</script>	
+	</head>
+{% block body %}
+	<body onload="initialize()">
+{% endblock %}
+		<div id="wrapper">
+			<div id="container">
+				<div id="content">
+					{% block content%}
+					{% endblock %}		
+				</div>	
+
+				<div id="nav">
+					<a href="/about/">
+						about<br/>
+					</a>
+					<a href="/blog/">
+						blog<br/>
+					</a>
+					<a href="/photos/">
+						photos<br/>
+					</a>
+					<a href="/maps/">
+						maps<br/>
+					</a>
+					<a href="/music/">
+						music<br/>
+					</a>
+
+				</div>
+				<div id="filters">
+					{% block filters %}
+					{% endblock %}	
+				</div>
+			
+
+			</div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id="webTitle">
+	<h1>music</h1>
+</div>
+
+<div id="text_block" style="font-size:16px;">
+					<br/>
+
+					<p>I spent some time playing jazz guitar at <a href="http://www.uarts.edu/academics/school-music" target="_blank">UArts</a> in Philadelphia.</p> <br/><br/>
+</div>
+<div id="text_block">
+					<h4> I used to write music with the <span class="about_title"><a href="http://radiolarians.bandcamp.com/" target="_blank">Radiolarians</a></span>, 
+					</h4>
+					<br/>
+</div>
+<div id="text_block" style="text-align:right;">
+					<h4>
+						and I currently play with the <a class="about_title" href="http://thewonderbars.com/" target="_blank">Wonder Bars</a>.
+						</span>
+					</h4>
+					<br/><br/><br/>
+</div>					
+<div id="text_block" style="text-align:center;">					
+					<span class="about_title">More importantly,<br/> I'm <a href="http://afraint.webfactional.com/music/friends/">constantly amazed</a> by the music my friends are making. </span>
+</div>	
+
+
+{% endblock %}
+
+{% block filters %}
+	filter:
+	{% for cat in cats %}
+		<br/><a href="{{ cat }}/">
+			{{ cat }}
+		</a>
+	{% endfor %}
+{% endblock %}
