@@ -8,12 +8,26 @@ from django import forms
 
 #
 
-from blog_post.models import Post, Photo, Category, Music, Concert
+from blog_post.models import Post, Photo, Category, Music, Concert, Disc
 from blog_post.models import get_categories
 
 ###########################
 # blog pages
 ###########################
+def disc_page(request):
+    """main listing of all discs in the discograpy"""
+    posts = Disc.objects.all().order_by("-year")
+
+    filters = []
+    paginator = Paginator(posts, 4)
+    try: page = int(request.GET.get("page", '1'))
+    except ValueError: page = 1
+    try: posts = paginator.page(page)
+    except (InvalidPage, EmptyPage): posts = paginator.page(paginator.num_pages)
+	
+    return render_to_response("disc2.html", dict(posts=posts, user=request.user), context_instance=RequestContext(request))
+
+
 def concert_page(request):
     """main listing of all blog posts"""
     posts = Concert.objects.all().order_by("-date")

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id="webTitle">
+	<h1>Discography</h1>
+</div>
+
+
+<div id="text_block">
+
+
+	{% for post in posts.object_list %}
+	<table width="100%" style="background:rgba(155,155,155,0.8);padding:2%;">
+	<tr>
+		<td rowspan="5" width="30%" height="auto" style="padding:2%;"><img width="100%" height="auto" src="{{ STATIC_URL }}{{ post.image }}"/></td>
+			<td width="70%" style="padding-top:2%;" class="album-title">{{ post.title }}</td>
+	</tr>
+	<tr>
+		<td>{{ post.band }}</td>
+	</tr>
+	<tr>
+		<td>{{ post.year }}</td>
+	</tr>
+	<tr>
+		<td><br/>{{ post.description }}</td>
+	</tr>
+	
+	</table>
+		<br/>
+		{% endfor %}
+	</div>
+{% endblock %}

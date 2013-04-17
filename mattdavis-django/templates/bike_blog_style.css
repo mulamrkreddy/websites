@@ -236,6 +236,13 @@ div#centered_text{
 	margin-left: auto;
 }
 
+.album-title{
+	font-size:150%;
+	line-height:150%;
+	font-weight:bold;
+	margin-top:50px;
+}
+
 nav{
 font-size:80%;
 }

@@ -11,16 +11,26 @@ from PIL.ExifTags import TAGS, GPSTAGS
 
 class Concert(models.Model):
     venue = models.CharField(max_length=60)
-    url = models.CharField(max_length=60)
+    url = models.CharField(max_length=160)
     supported_by = models.CharField(max_length=60)
     intersection = models.CharField(max_length=120)
     description = models.TextField()
-    date = models.DateTimeField()
-    time = models.IntegerField()
+    date = models.DateField()
+    time = models.CharField(max_length=60)
 
     def __unicode__(self):
-        return (self.venue + str(self.date))
+        return (str(self.date) + self.venue)
 
+class Disc(models.Model):
+    title = models.CharField(max_length=60)
+    band = models.CharField(max_length=120)
+    url = models.CharField(max_length=120)
+    image = models.ImageField(upload_to='discography/%y')
+    description = models.TextField()
+    year = models.IntegerField()
+
+    def __unicode__(self):
+        return (self.band + "_" + self.title)
 
 ###################################
 # category model
@@ -196,6 +206,8 @@ class MusicAdmin(admin.ModelAdmin):
 class ConcertAdmin(admin.ModelAdmin):
     fields = ["date", "url", "time", "venue", "intersection", "description", "supported_by"]
 
+class DiscAdmin(admin.ModelAdmin):
+    fields = ["band", "title", "url", "year", "description", "image"]
 	
 	
 admin.site.register(Category)
@@ -203,3 +215,4 @@ admin.site.register(Post, PostAdmin)
 admin.site.register(Photo, PhotoAdmin)
 admin.site.register(Music, MusicAdmin)
 admin.site.register(Concert, ConcertAdmin)
+admin.site.register(Disc, DiscAdmin)
