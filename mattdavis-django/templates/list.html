@@ -3,6 +3,15 @@
 {% block content %}
 <div id="webTitle">
 	<h1>blog</h1>
+	<p class="filters">
+		filter:
+			{% for cat in cats %}
+				<a href="{{ cat }}/">
+					{{ cat }}
+				</a> //
+			{% endfor %}
+	
+	</p>
 </div>
 
 
@@ -72,13 +81,4 @@
 			</div>
 			{% endif %}			
 	</div>
-{% endblock %}
-
-{% block filters %}
-	filter:
-	{% for cat in cats %}
-		<br/><a href="{{ cat }}/">
-			{{ cat }}
-		</a>
-	{% endfor %}
 {% endblock %}

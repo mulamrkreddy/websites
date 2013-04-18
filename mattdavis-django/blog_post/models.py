@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib import admin
 from PIL import Image as PImage
 import os
+import datetime
 
 from myproject.settings import MEDIA_ROOT
 
@@ -17,6 +18,10 @@ class Concert(models.Model):
     description = models.TextField()
     date = models.DateField()
     time = models.CharField(max_length=60)
+	
+    def is_in_the_past(self):
+        if datetime.datetime.now() > self.date: return true
+        else: return false
 
     def __unicode__(self):
         return (str(self.date) + self.venue)

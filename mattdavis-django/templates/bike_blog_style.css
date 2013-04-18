@@ -240,9 +240,19 @@ div#centered_text{
 	font-size:150%;
 	line-height:150%;
 	font-weight:bold;
-	margin-top:50px;
 }
+.important{
+	font-size:150%;
+	line-height:150%;
+	font-weight:bold;
+}
+.secondary{
+	font-size:90%;
 
+}
+.filters{
+	font-size:70%;
+}
 nav{
 font-size:80%;
 }

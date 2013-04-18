@@ -2,7 +2,7 @@ from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
-
+import datetime
 # imports for gmapi functions
 from django import forms
 
@@ -29,8 +29,9 @@ def disc_page(request):
 
 
 def concert_page(request):
-    """main listing of all blog posts"""
-    posts = Concert.objects.all().order_by("-date")
+    today = datetime.datetime.now()
+    TODAY = str(today.year) + "-" + str(today.month) + "-" + str(today.day)
+    posts = Concert.objects.all().filter(date__gte=TODAY).order_by("-date")
     filters = []
     paginator = Paginator(posts, 4)
     try: page = int(request.GET.get("page", '1'))
@@ -40,7 +41,18 @@ def concert_page(request):
 
     return render_to_response("concerts.html", dict(posts=posts, user=request.user), context_instance=RequestContext(request))
 
+def past_concert_page(request):
+    today = datetime.datetime.now()
+    TODAY = str(today.year) + "-" + str(today.month) + "-" + str(today.day)
+    posts = Concert.objects.all().filter(date__lte=TODAY).order_by("-date")
+    filters = []
+    paginator = Paginator(posts, 4)
+    try: page = int(request.GET.get("page", '1'))
+    except ValueError: page = 1
+    try: posts = paginator.page(page)
+    except (InvalidPage, EmptyPage): posts = paginator.page(paginator.num_pages)
 
+    return render_to_response("past_concerts.html", dict(posts=posts, user=request.user), context_instance=RequestContext(request))
 
 def blog_page(request):
     """main listing of all blog posts"""
