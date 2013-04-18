@@ -8,8 +8,8 @@ from django import forms
 
 #
 
-from blog_post.models import Post, Photo, Category, Music, Concert, Disc
-from blog_post.models import get_categories
+from blog_post.models import Post, Photo, Category, Music, Concert, Disc, MusicEmbed
+from blog_post.models import get_categories, get_music_categories
 
 ###########################
 # blog pages
@@ -130,6 +130,7 @@ def photo_page_cat(request, category):
 ###########################
 # music page
 ###########################
+'''
 def music_page(request):
     """displays data from music table"""
     category_list = get_categories('music')
@@ -142,10 +143,15 @@ def music_page(request):
     friends = Music.objects.filter(category__name__exact="music friends")
     listening = Music.objects.filter(category__name__exact="music playlist")
     return render_to_response("music.html", dict(projects=projects, friends=friends, listening=listening, cats=cats), context_instance=RequestContext(request))
-
-def music_page_cat(request, category_short):
+'''
+def music_page_cat(request, category):
     """listing of blog posts that fit the given category"""
-    category = 'music ' + category_short
-    bands = Music.objects.filter(category__name__exact=category)
-    ordered_bands = bands.order_by('band')
-    return render_to_response("music_cat.html", dict(bands=ordered_bands, cat=category_short), context_instance=RequestContext(request))
+    bands = MusicEmbed.objects.filter(category__name__exact=category)
+    return render_to_response("music_cat.html", dict(bands=bands, cat=category), context_instance=RequestContext(request))
+
+
+def music_page(request):
+    """listing of all music embeds"""
+    cats = get_music_categories()
+    bands = MusicEmbed.objects.all().order_by("-date")
+    return render_to_response("music.html", dict(bands=bands, cats=cats), context_instance=RequestContext(request))

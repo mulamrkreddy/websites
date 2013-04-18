@@ -47,6 +47,13 @@ class Category(models.Model):
     class Meta:
         verbose_name_plural = "categories"
 
+class CategoryMusic(models.Model):
+    name = models.CharField(max_length=60)
+    def __unicode__(self):
+        return self.name
+    class Meta:
+        verbose_name_plural = "categories"
+		
 
 ###################################
 # blog post model
@@ -186,6 +193,26 @@ def get_categories(cat_type):
                 cat_list.append(str(cat.name))
     return cat_list
 
+def get_music_categories():
+    """creates list of all categories for music iframes"""
+    cat_list = []
+    for cat in CategoryMusic.objects.all():
+        cat_list.append(str(cat.name))
+    return cat_list
+
+	
+class MusicEmbed(models.Model):
+    date = models.DateField()
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    iframe = models.TextField()
+    website = models.CharField(max_length=200)
+    category = models.ManyToManyField(CategoryMusic)
+    def __unicode__(self):
+        return (str(self.date) + " " + self.title)
+    class Meta:
+        verbose_name_plural = "music embed"
+	
 
 ###########################
 # Admin business
@@ -208,6 +235,9 @@ class PhotoAdmin(admin.ModelAdmin):
 class MusicAdmin(admin.ModelAdmin):
     fields = ["band", "description", "iframe", "website", "category"]
 	
+class MusicEmbedAdmin(admin.ModelAdmin):
+    fields = ["title", "description", "iframe", "website", "category", "date"]
+	
 class ConcertAdmin(admin.ModelAdmin):
     fields = ["date", "url", "time", "venue", "intersection", "description", "supported_by"]
 
@@ -216,8 +246,10 @@ class DiscAdmin(admin.ModelAdmin):
 	
 	
 admin.site.register(Category)
+admin.site.register(CategoryMusic)
 admin.site.register(Post, PostAdmin)
 admin.site.register(Photo, PhotoAdmin)
 admin.site.register(Music, MusicAdmin)
+admin.site.register(MusicEmbed, MusicEmbedAdmin)
 admin.site.register(Concert, ConcertAdmin)
 admin.site.register(Disc, DiscAdmin)

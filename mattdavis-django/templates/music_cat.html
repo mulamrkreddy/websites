@@ -2,34 +2,22 @@
 
 {% block content %}
 <div id="webTitle">
-	<h1>{{ cat }}</h1>
+	<h3>{{ cat }}</h3>
+	<p class="filters">
+			<a href="/music/">
+			remove filter
+		</a>
+	</p>
 </div>
 
 
 
 <div id="text_block">
-
-		<br/>
-
-			{% if cat == "projects" %}
-			<h3>bands that I am / was a part of:</h3>
-			{% endif %}
-
-			{% if cat == "playlist" %}
-			<h3>some things I've been listening to lately.</h3>
-			{% endif %}
-
-			{% if cat == "friends" %}
-			<h3>I have lots of friends that make some seriously amazing music.<br/>
-				Please give them a listen:</h3>
-			{% endif %}
-
-		<br/>
-
 	{% for band in bands %}
-		<p>
-			<a href="{{ band.website }}">{{ band.band|upper }}</a> /// {{ band.description }} 
-		</p>
+		<p><a href="{{ band.website }}" target="_blank">{{ band.title }}</a></p>
+		
+		<p>{{ band.description }} 
+		</p><br/>
 		<div class="iframe">
 			{% autoescape off %}
 				{{ band.iframe }}
@@ -39,10 +27,4 @@
 	{% endfor %}
 
 </div>
-{% endblock %}
-
-{% block filters %}
-		<a href="/music/">
-			remove filter
-		</a>
 {% endblock %}

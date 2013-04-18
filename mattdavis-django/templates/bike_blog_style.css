@@ -347,6 +347,33 @@ nav ul li ul li a{
 		
 }
 
+@media only screen and (max-width:490px) {
+	nav{
+		font-size:60%;}
+		#byline{
+			font-size:70%;
+		}
+			nav ul li a {padding:2px;
+					margin-left:2px;
+		margin-right:2px;}
+
+		#wrapper{ /* centers the page */
+			top: 10%;
+			display: block;
+			width: 95%;
+			margin: 0 auto;
+			text-align: left;
+		}
+		div#content{ /*  meat of the page */
+			margin-left: auto;
+			margin-right: auto;
+			width: 90%;
+			position: inherit;
+			text-align: left;
+			/*border:solid;*/
+			padding:2%;
+		}
+}
 
 #facebook-thing{
 	text-align: right;
