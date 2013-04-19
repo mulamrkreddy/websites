@@ -11,8 +11,26 @@ from django import forms
 from blog_post.models import Post, Photo, Category, Music, Concert, Disc, MusicEmbed
 from blog_post.models import get_categories, get_music_categories
 
+
 ###########################
-# blog pages
+# simple flat pages
+###########################
+
+def contact(request):
+    """       """
+    return render_to_response("contact.html", dict(user=request.user), context_instance=RequestContext(request))
+
+def about(request):
+    """       """
+    return render_to_response("about.html", dict(user=request.user), context_instance=RequestContext(request))
+
+def aerialphoto(request):
+    """       """
+    return render_to_response("aerialphoto.html", dict(user=request.user), context_instance=RequestContext(request))
+
+
+###########################
+# discography page
 ###########################
 def disc_page(request):
     """main listing of all discs in the discograpy"""
@@ -27,6 +45,9 @@ def disc_page(request):
 	
     return render_to_response("disc2.html", dict(posts=posts, user=request.user), context_instance=RequestContext(request))
 
+###########################
+# concert pages
+###########################
 
 def concert_page(request):
     today = datetime.datetime.now()
@@ -53,6 +74,10 @@ def past_concert_page(request):
     except (InvalidPage, EmptyPage): posts = paginator.page(paginator.num_pages)
 
     return render_to_response("past_concerts.html", dict(posts=posts, user=request.user), context_instance=RequestContext(request))
+
+###########################
+# blog pages
+###########################
 
 def blog_page(request):
     """main listing of all blog posts"""
@@ -93,9 +118,11 @@ def single_blog_post(request, slug):
     post.photos = Photo.objects.filter(post=post.pk)
 
     return render_to_response("single_post.html", dict(post=post, slug=slug), context_instance=RequestContext(request))
+
 ###########################
 # photo pages
 ###########################
+
 def photo_page(request):
     """listing that shows all photos"""
     cats = get_categories('photo')
@@ -127,23 +154,11 @@ def photo_page_cat(request, category):
         photos = paginator.page(paginator.num_pages)
 
     return render_to_response("photo_cat.html", dict(photos=photos, cat=category, user=request.user), context_instance=RequestContext(request))
+
 ###########################
 # music page
 ###########################
-'''
-def music_page(request):
-    """displays data from music table"""
-    category_list = get_categories('music')
-    # strip 'music' from each music category, i.e. 'music friends' --> 'friends'
-    cats = []
-    for cat in category_list:
-        cat = cat.replace('music ','')
-        cats.append(cat)
-    projects = Music.objects.filter(category__name__exact="music projects")
-    friends = Music.objects.filter(category__name__exact="music friends")
-    listening = Music.objects.filter(category__name__exact="music playlist")
-    return render_to_response("music.html", dict(projects=projects, friends=friends, listening=listening, cats=cats), context_instance=RequestContext(request))
-'''
+
 def music_page_cat(request, category):
     """listing of blog posts that fit the given category"""
     bands = MusicEmbed.objects.filter(category__name__exact=category)
